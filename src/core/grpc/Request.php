@@ -54,8 +54,6 @@ class Request {
     }
 
     public function params() {
-
-
         $className = $this->getClassName($this->getController(), $this->getAction());
         $message = $this->deserializeMessage($className, $this->getRawContent());
         $requestFunctions = [];
