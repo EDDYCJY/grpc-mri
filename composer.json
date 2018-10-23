@@ -1,0 +1,21 @@
+{
+    "name": "eddycjy/grpc-mri",
+    "description": "Quickly create control of grpc",
+    "keywords": ["grpc", "php"],
+    "license": "Apache License 2.0",
+    "authors": [
+        {
+            "name": "EDDYCJY",
+            "email": "eddycjy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "google/protobuf": "^v3.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "mri\\": "src/"
+        }
+    }
+}
