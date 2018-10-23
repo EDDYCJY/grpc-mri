@@ -16,6 +16,9 @@
     "autoload": {
         "psr-4": {
             "mri\\": "src/"
-        }
+        },
+        "files": [
+            "src/function/convert.php"
+        ]
     }
 }
