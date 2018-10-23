@@ -53,8 +53,10 @@ class Response {
     public function params() {
         $className = $this->getClassName($this->getController(), $this->getAction());
         $message = new $className;
-        $data = $this->encode($this->data);
-        $message->mergeFromJsonString($data);
+        if (count($this->data) > 0) {
+            $data = $this->encode($this->data);
+            $message->mergeFromJsonString($data);
+        }
 
         return $this->serializeMessage($message);
     }
