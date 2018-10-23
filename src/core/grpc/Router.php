@@ -8,6 +8,8 @@
 
 namespace mri\core\grpc;
 
+use mri\util\Convert;
+
 class Router {
 
     protected $uri;
@@ -32,8 +34,8 @@ class Router {
         $controller = explode('.', $paths[0])[1];
 
         return [
-            'action' => toUnderline($action),
-            'controller' => toUnderline($controller),
+            'action' => Convert::toUnderline($action),
+            'controller' => Convert::toUnderline($controller),
         ];
     }
 }

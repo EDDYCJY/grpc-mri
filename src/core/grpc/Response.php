@@ -8,6 +8,8 @@
 
 namespace mri\core\grpc;
 
+use mri\util\Convert;
+
 class Response {
 
     const RESPONSE_SUFFIX = 'Response';
@@ -62,7 +64,7 @@ class Response {
     }
 
     protected function getClassName($controller, $action) {
-        return toUcWordHump($controller) . '\\' . toUcWordHump($action) . self::RESPONSE_SUFFIX;
+        return Convert::toUcWordHump($controller) . '\\' . Convert::toUcWordHump($action) . self::RESPONSE_SUFFIX;
     }
 
     protected function encode($data) {
