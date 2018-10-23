@@ -2,7 +2,7 @@
     "name": "eddycjy/grpc-mri",
     "description": "Quickly create control of grpc",
     "keywords": ["grpc", "php"],
-    "license": "Apache License 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "EDDYCJY",
