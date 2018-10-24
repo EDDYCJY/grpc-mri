@@ -8,42 +8,16 @@
 
 namespace mri\core\grpc;
 
-use mri\util\Convert;
+use \Google\Protobuf\Internal\Message;
 
 class Response {
 
-    const RESPONSE_SUFFIX = 'Response';
-
-    protected $controller;
-
-    protected $action;
-
     protected $data;
 
-    public function setController($controller) {
-        $this->controller = $controller;
-
-        return $this;
-    }
-
-    public function setAction($action) {
-        $this->action = $action;
-
-        return $this;
-    }
-
-    public function setData($data) {
+    public function setData(Message $data) {
         $this->data = $data;
 
         return $this;
-    }
-
-    public function getController() {
-        return $this->controller;
-    }
-
-    public function getAction() {
-        return $this->action;
     }
 
     public function getData() {
@@ -51,25 +25,10 @@ class Response {
     }
 
     public function params() {
-        $className = $this->getClassName($this->getController(), $this->getAction());
-        $message = new $className;
-        if (count($this->data) > 0) {
-            $data = $this->encode($this->data);
-            $message->mergeFromJsonString($data);
-        }
-
-        return $this->serializeMessage($message);
+        return $this->serializeMessage($this->getData());
     }
 
     protected function serializeMessage($message) {
         return Parser::serializeMessage($message);
-    }
-
-    protected function getClassName($controller, $action) {
-        return Convert::toUcWordHump($controller) . '\\' . Convert::toUcWordHump($action) . self::RESPONSE_SUFFIX;
-    }
-
-    protected function encode($data) {
-        return json_encode($data);
     }
 }

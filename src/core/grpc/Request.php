@@ -9,11 +9,8 @@
 namespace mri\core\grpc;
 
 use mri\util\Convert;
-use ReflectionClass;
 
 class Request {
-
-    const GETTER_PREFIX = 'get';
 
     const REQUEST_SUFFIX = 'Request';
 
@@ -55,22 +52,8 @@ class Request {
 
     public function params() {
         $className = $this->getClassName($this->getController(), $this->getAction());
-        $message = $this->deserializeMessage($className, $this->getRawContent());
-        $requestFunctions = [];
-        $reflectionObject = new ReflectionClass($className);
-        $properties = $reflectionObject->getProperties();
-        foreach ($properties as $property) {
-            $key = Convert::toHump($property->getName());
-            $value = self::GETTER_PREFIX . ucwords($key);
-            $requestFunctions[$key] = $value;
-        }
 
-        $params = [];
-        foreach ($requestFunctions as $field => $function) {
-            $params[$field] = $message->$function();
-        }
-
-        return $params;
+        return $this->deserializeMessage($className, $this->getRawContent());
     }
 
     protected function deserializeMessage($className, $rawContent) {

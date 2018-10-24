@@ -22,12 +22,13 @@ class Dispatcher {
         return $request->params();
     }
 
-    public function handleResponse($controller, $action,  $data) {
+    public function handleResponse($data) {
+        if (is_null($data) || is_array($data) && count($data) == 0) {
+            return '';
+        }
+
         $response = new Response();
         $response->setData($data);
-        $response->setController($controller);
-        $response->setAction($action);
-
         return $response->params();
     }
 }
