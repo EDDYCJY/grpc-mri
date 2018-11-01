@@ -13,9 +13,10 @@ use mri\core\grpc\Response;
 
 class Dispatcher {
 
-    public function handleRequest($controller, $action, $rawContent) {
+    public function handleRequest($module, $controller, $action, $rawContent) {
         $request = new Request();
         $request->setRawContent($rawContent);
+        $request->setModule($module);
         $request->setController($controller);
         $request->setAction($action);
 

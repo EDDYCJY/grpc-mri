@@ -14,7 +14,11 @@ class Request {
 
     const REQUEST_SUFFIX = 'Request';
 
+    const CLIENT_SUFFIX = 'Client';
+
     protected $rawContent;
+
+    protected $module;
 
     protected $controller;
 
@@ -22,6 +26,12 @@ class Request {
 
     public function setRawContent($rawContent) {
         $this->rawContent = $rawContent;
+
+        return $this;
+    }
+
+    public function setModule($module) {
+        $this->module = $module;
 
         return $this;
     }
@@ -42,6 +52,10 @@ class Request {
         return $this->rawContent;
     }
 
+    public function getModule() {
+        return $this->module;
+    }
+
     public function getController() {
         return $this->controller;
     }
@@ -51,7 +65,10 @@ class Request {
     }
 
     public function params() {
-        $className = $this->getClassName($this->getController(), $this->getAction());
+        $className = $this->getRequestClass($this->getModule(), $this->getController(), $this->getAction());
+        if (is_null($className)) {
+            $className = $this->getDefaultClass($this->getController(), $this->getAction());
+        }
 
         return $this->deserializeMessage($className, $this->getRawContent());
     }
@@ -60,7 +77,16 @@ class Request {
         return Parser::deserializeMessage([$className, null], $rawContent);
     }
 
-    private function getClassName($controller, $action) {
+    private function getRequestClass($module, $controller, $action) {
+        $name = Convert::toUcWordHump($module) . '\\' . Convert::toUcWordHump($controller) . self::CLIENT_SUFFIX;
+        $reflection = new \ReflectionClass($name);
+        $params = $reflection->getMethod(Convert::toUcWordHump($action))->getParameters();
+        $class = $params[0]->getClass()->getName();
+
+        return $class;
+    }
+
+    private function getDefaultClass($controller, $action) {
         return Convert::toUcWordHump($controller) . '\\' . Convert::toUcWordHump($action) . self::REQUEST_SUFFIX;
     }
 }

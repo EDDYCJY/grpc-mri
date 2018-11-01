@@ -31,11 +31,12 @@ class Router {
         }
 
         $action = $paths[1];
-        $controller = explode('.', $paths[0])[1];
+        $path = explode('.', $paths[0]);
 
         return [
+            'module' => Convert::toUnderline($path[0]),
             'action' => Convert::toUnderline($action),
-            'controller' => Convert::toUnderline($controller),
+            'controller' => Convert::toUnderline($path[1]),
         ];
     }
 }
